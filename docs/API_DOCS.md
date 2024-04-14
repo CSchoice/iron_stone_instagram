@@ -13,7 +13,10 @@
 | /accounts/login/   |POST| 유저 로그인  |
 | /accounts/logout/   |POST| 유저 로그아웃  |
 | /contents/{user_pk}/update/   |GET| 회원정보 수정 페이지  |
+| /contents/{user_pk}/update/   |POST| 회원정보 수정  |
 | /accounts/{tar_user_pk}/follow/   |POST| 유저 팔로우  |
+
+
 
 
 ### 게시글 API
@@ -22,6 +25,8 @@
 | ----------------- |------| ---------------------- |
 | /contents/   |GET| 메인 페이지  |
 | /contents/{tar_user_pk}/profile/   |GET| 회원 프로필 페이지  |
+| /accounts/{tar_user_pk}/followings/   |GET| 대상이 팔로잉 중인 유저 조회  |
+| /accounts/{tar_user_pk}/followers/   |POST| 대상을 팔로우 중인 유저 조회  |
 | /contents/create/   |POST| 게시글 작성  |
 | /contents/{article_pk}   |GET| 게시글 상세 정보  |
 | /contents/{article_pk}/update/   |PUT| 게시글 수정  |
