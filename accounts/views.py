@@ -25,11 +25,26 @@ def user_logout(request):
     return Response({"message": "로그아웃 성공"}, status=status.HTTP_200_OK)
 
 # 회원정보 수정 페이지 조회
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def update_user_profile(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
-    serializer = UserSerializer(user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        #get 요청 처리
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'POST':
+        if request.user.pk != user.pk:
+            # 로그인한 유저와, 해당 회원정보 유저가 다른 경우
+            return Response({"message": "자신의 정보만 수정할 수 있습니다"}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            #정상적으로 수정
+            return Response(serializer.data, status=status.HTTP_200_OK)
+            #형식이 맞지 않음
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #사용자 팔로우
 def follow_user(request, tar_user_pk):
