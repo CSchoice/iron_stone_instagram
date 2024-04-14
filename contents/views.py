@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import ArticleListSerializer, ArticleSerializer
+from .serializers import ArticleSerializer, CommentSerializer
 from .models import Comment, Article
 from accounts.models import User
 # DRF에서는 로그인 데코레이터를 사용하지 않음
@@ -40,7 +40,7 @@ def user_profile(request, user_id):
     serializer = ArticleSerializer(articles, many=True)
 
     profile_data = {
-        'id': user.id,
+        'pk': user.pk,
         'username': user.username,
         'name': user.name,
         'nickname': user.nickname,

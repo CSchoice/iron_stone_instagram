@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import User
-from .serializers import UserProfileSerializer
+from .serializers import UserSerializer
 
 # 사용자 로그인 처리
 @api_view(['POST'])
@@ -28,7 +28,7 @@ def user_logout(request):
 @api_view(['GET'])
 def update_user_profile(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
-    serializer = UserProfileSerializer(user)
+    serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 #사용자 팔로우
