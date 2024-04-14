@@ -12,7 +12,6 @@
 | ----------------- |------| ---------------------- |
 | /accounts/login/   |POST| 유저 로그인  |
 | /accounts/logout/   |POST| 유저 로그아웃  |
-| /accounts/logout/   |POST| 유저 로그아웃  |
 | /contents/{user_pk}/update/   |GET| 회원정보 수정 페이지  |
 | /accounts/{tar_user_pk}/follow/   |POST| 유저 팔로우  |
 
