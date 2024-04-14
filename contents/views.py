@@ -54,6 +54,25 @@ def user_profile(request, user_id):
     }
 
     return Response(profile_data, status=status.HTTP_200_OK)
+# 특정 사용자를 팔로우하는 사용자 목록을 가져옮
+@api_view(['GET'])
+def get_followers_list(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    followers = user.followers.all()
+    followers_list = []
+    for follow in followers:
+        followers_list.append({'id': follow.id, 'username': follow.username} )
+    return Response(followers_list)
+
+# 특정 사용자가 팔로우하는 사용자 목록을 가져옮
+@api_view(['GET'])
+def get_following_list(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    following = user.following.all()
+    following_list = []
+    for follow in following:
+        following_list.append({'id': follow.id, 'username': follow.username} )
+    return Response(following_list)
 
 # 게시글 작성
 @api_view(['POST'])
