@@ -20,15 +20,15 @@ from . import views
 
 app_name = 'contents'
 urlpatterns = [
-    path('contents/', views.main_page, name='main_page'),
-    path('contents/<int:tar_user_pk>/profile/', views.user_profile, name='user_profile'),
+    path('', views.main_page, name='main_page'),
+    path('<int:tar_user_pk>/profile/', views.user_profile, name='user_profile'),
     path('users/<int:user_pk>/followers/', views.get_followers_list, name='get_followers_list'),
     path('users/<int:user_pk>/following/', views.get_following_list, name='get_following_list'),
-    path('contents/create/', views.create_article, name='create_article'),
-    path('contents/<int:article_pk>/', views.article_detail, name='article_detail'),
-    path('contents/<int:article_pk>/edit/', views.edit_article, name='edit_article'),
-    path('contents/<int:article_pk>/comment/', views.create_comment, name='create_comment'),
-    path('contents/<int:article_pk>/comment/<int:comment_pk>/edit/', views.edit_comment, name='edit_comment'),
-    path('contents/<int:article_pk>/like/', views.like_article, name='like_article'),
+    path('create/', views.create_article, name='create_article'),
+    path('<int:article_pk>/', views.article_detail, name='article_detail'),
+    path('<int:article_pk>/edit/', views.edit_article, name='edit_article'),
+    path('<int:article_pk>/comment/', views.create_comment, name='create_comment'),
+    path('<int:article_pk>/comment/<int:comment_pk>/edit/', views.edit_comment, name='edit_comment'),
+    path('<int:article_pk>/like/', views.like_article, name='like_article'),
 ]
 
