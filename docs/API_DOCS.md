@@ -12,8 +12,8 @@
 | ----------------- |------| ---------------------- |
 | /accounts/login/   |POST| 유저 로그인  |
 | /accounts/logout/   |POST| 유저 로그아웃  |
-| /contents/{user_pk}/update/   |GET| 회원정보 수정 페이지  |
-| /contents/{user_pk}/update/   |POST| 회원정보 수정  |
+| /accounts/{user_pk}/control   |GET| 회원정보 수정 페이지  |
+| /accounts/{user_pk}/control   |POST| 회원정보 수정  |
 | /accounts/{tar_user_pk}/follow/   |POST| 유저 팔로우  |
 
 
@@ -28,12 +28,12 @@
 | /accounts/{tar_user_pk}/followings/   |GET| 대상이 팔로잉 중인 유저 조회  |
 | /accounts/{tar_user_pk}/followers/   |GET| 대상을 팔로우 중인 유저 조회  |
 | /contents/create/   |POST| 게시글 작성  |
-| /contents/{article_pk}   |GET| 게시글 상세 정보  |
-| /contents/{article_pk}/update/   |PUT| 게시글 수정  |
-| /contents/{article_pk}/delete/   |delete| 게시글 삭제  |
-| /contents/{article_pk}/comment_create   |POST| 댓글 작성  |
-| /contents/{article_pk}/comment/{comment_pk}/update/   |PUT| 댓글 수정  |
-| /contents/{article_pk}/comment/{comment_pk}/delete/   |delete| 댓글 삭제  |
+| /contents/{article_pk}/   |GET| 게시글 상세 정보  |
+| /contents/{article_pk}/   |PUT| 게시글 수정  |
+| /contents/{article_pk}/   |delete| 게시글 삭제  |
+| /contents/{article_pk}/comment/   |POST| 댓글 작성  |
+| /contents/{article_pk}/comment/{comment_pk}/   |PUT| 댓글 수정  |
+| /contents/{article_pk}/comment/{comment_pk}/   |delete| 댓글 삭제  |
 | /contents/{article_pk}/like/   |POST| 게시글 좋아요  |
 
 
