@@ -17,3 +17,4 @@ class User(AbstractUser):
     profile_img = models.ImageField(upload_to=user_directory_path, blank=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers', blank=True)
     created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)

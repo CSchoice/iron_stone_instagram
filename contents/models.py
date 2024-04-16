@@ -21,6 +21,7 @@ class Article(models.Model):
     like_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='like_articles'
     )
+    updated_at = models.DateTimeField(auto_now_add=True)
 
 class Comment(models.Model):
     author = models.ForeignKey(
@@ -29,3 +30,4 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)

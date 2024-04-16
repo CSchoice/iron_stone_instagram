@@ -57,6 +57,7 @@
 | introduce    | Text   | 사용자 소개           |    |
 | profile_img  | Image  | 사용자 프로필 이미지           |    |
 | created_at  | Text  | 사용자 가입 날짜           |    |
+| updated_at  | Text  | 사용자 정보 수정 날짜           |    |
 | followings  | int  | 사용자가 팔로우 하는 유저           |유저:유저=N:M    |
 
 
@@ -67,7 +68,8 @@
 | ------|------ |------|------|
 | content     | Text   | 게시글 내용     |    |
 | image     | Image   | 게시글 사진       |    |
-| created_at     | Text   | 게시글 작성/수정 시간  |    |
+| created_at     | Text   | 게시글 작성 시간  |    |
+| updated_at  | Text  | 게시글 수정 시간           |    |
 | like_user     | int   | 게시글 좋아요  |유저:게시글=N:M|
 | author     | int   | 게시글 작성자  |유저:게시글=1:N|
 
@@ -78,6 +80,7 @@
 | Name  | Type | Des |DB관계 |
 | ------|------ |------|------|
 | content     | Text   | 댓글 내용     |    |
-| created_at     | Text   | 댓글 작성/수정 시간  |    |
+| created_at     | Text   | 댓글 작성 시간  |    |
+| updated_at  | Text  | 댓글 수정 날짜           |    |
 | author     | int   | 댓글 작성자  |유저:댓글=1:N|
 | article     | int   | 댓글이 달릴 게시글  |게시글:댓글=1:N|
