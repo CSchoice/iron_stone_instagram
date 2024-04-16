@@ -21,6 +21,6 @@ app_name = 'accounts'
 urlpatterns = [
     path('accounts/login/', views.user_login, name='user_login'),
     path('accounts/logout/', views.user_logout, name='user_logout'),
-    path('contents/<int:user_pk>/update/', views.update_user_profile, name='update_user_profile'),
+    path('accounts/<int:user_pk>/control/', views.update_user_profile, name='update_user_profile'),
     path('accounts/<int:tar_user_pk>/follow/', views.follow_user, name='follow_user'),
 ]

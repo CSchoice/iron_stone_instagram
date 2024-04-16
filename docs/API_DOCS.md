@@ -29,8 +29,8 @@
 | /accounts/{tar_user_pk}/followers/   |GET| 대상을 팔로우 중인 유저 조회  |
 | /contents/create/   |POST| 게시글 작성  |
 | /contents/{article_pk}/   |GET| 게시글 상세 정보  |
-| /contents/{article_pk}/   |PUT| 게시글 수정  |
-| /contents/{article_pk}/   |delete| 게시글 삭제  |
+| /contents/{article_pk}/edit/   |PUT| 게시글 수정  |
+| /contents/{article_pk}/edit/   |delete| 게시글 삭제  |
 | /contents/{article_pk}/comment/   |POST| 댓글 작성  |
 | /contents/{article_pk}/comment/{comment_pk}/   |PUT| 댓글 수정  |
 | /contents/{article_pk}/comment/{comment_pk}/   |delete| 댓글 삭제  |

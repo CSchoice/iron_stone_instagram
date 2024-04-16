@@ -26,11 +26,9 @@ urlpatterns = [
     path('users/<int:user_pk>/following/', views.get_following_list, name='get_following_list'),
     path('contents/create/', views.create_article, name='create_article'),
     path('contents/<int:article_pk>/', views.article_detail, name='article_detail'),
-    path('contents/<int:article_pk>/update/', views.update_article, name='update_article'),
-    path('contents/<int:article_pk>/delete/', views.delete_article, name='delete_article'),
-    path('contents/<int:article_pk>/comment_create/', views.create_comment, name='create_comment'),
-    path('contents/<int:article_pk>/comment/<int:comment_pk>/update/', views.update_comment, name='update_comment'),
-    path('contents/<int:article_pk>/comment/<int:comment_pk>/delete/', views.delete_comment, name='delete_comment'),
+    path('contents/<int:article_pk>/edit/', views.edit_article, name='edit_article'),
+    path('contents/<int:article_pk>/comment/', views.create_comment, name='create_comment'),
+    path('contents/<int:article_pk>/comment/<int:comment_pk>/edit/', views.edit_comment, name='edit_comment'),
     path('contents/<int:article_pk>/like/', views.like_article, name='like_article'),
 ]
 

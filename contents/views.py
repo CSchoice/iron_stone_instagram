@@ -92,22 +92,20 @@ def article_detail(request, article_pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# 게시글 수정
-@api_view(['PUT'])
-def update_article(request, article_pk):
-    article = Article.objects.get(pk=article_pk)
-    serializer = ArticleSerializer(article, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# 게시글 삭제
-@api_view(['DELETE'])
-def delete_article(request, article_pk):
-    article = Article.objects.get(pk=article_pk)
-    article.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+# 게시글 수정, 삭제
+@api_view(['PUT', 'DELETE'])
+def edit_article(request, article_pk):
+    if request.method == 'PUT':
+        article = Article.objects.get(pk=article_pk)
+        serializer = ArticleSerializer(article, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+    if request.method == 'DELETE':
+        article = Article.objects.get(pk=article_pk)
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # 댓글 작성
@@ -120,23 +118,19 @@ def create_comment(request, article_pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# 댓글 수정
-@api_view(['PUT'])
-def update_comment(request, article_pk, comment_pk):
+# 댓글 수정, 삭제
+@api_view(['PUT', 'DELETE'])
+def edit_comment(request, article_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     serializer = CommentSerializer(comment, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# 댓글 삭제
-@api_view(['DELETE'])
-def delete_comment(request, article_pk, comment_pk):
-    comment = Comment.objects.get(pk=comment_pk)
-    comment.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    if request.method == 'PUT':
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
