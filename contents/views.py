@@ -5,6 +5,7 @@ from rest_framework import status
 from .serializers import ArticleSerializer, CommentSerializer
 from .models import Comment, Article
 from accounts.models import User
+from rest_framework.authtoken.models import Token
 # DRF에서는 로그인 데코레이터를 사용하지 않음
 # from django.contrib.auth.decorators import login_required
 
@@ -77,12 +78,20 @@ def get_following_list(request, user_id):
 # 게시글 작성
 @api_view(['POST'])
 def create_article(request):
+    try:
+        token_key = request.auth
+        print(request.auth)
+        print(request.user)
+        token = Token.objects.get(key=token_key)
+        user = token.user
+    except Token.DoesNotExist:
+        return Response({'error': '토큰이 올바르지 않습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+
     serializer = ArticleSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        serializer.save(author=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # 게시글 상세 정보 조회
 @api_view(['GET'])

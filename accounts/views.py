@@ -5,18 +5,32 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import User
 from .serializers import UserSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.settings import api_settings
+from rest_framework.authtoken.views import ObtainAuthToken
+
+
 
 # 사용자 로그인 처리
-@api_view(['POST'])
-def user_login(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        login(request, user)
-        return Response({"message": "로그인 성공"}, status=status.HTTP_200_OK)
-    else:
-        return Response({"message": "잘못된 아이디 또는 비밀번호입니다."}, status=status.HTTP_401_UNAUTHORIZED)
+class LoginView(ObtainAuthToken):
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        user_json = UserSerializer(user).data
+
+        token, created = Token.objects.get_or_create(user=user)
+        return Response(
+            {
+                "token": token.key,
+                "user": user_json,
+            }
+        )
+
 
 # 사용자 로그아웃 처리
 @api_view(['POST'])
