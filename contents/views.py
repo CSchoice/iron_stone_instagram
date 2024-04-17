@@ -24,8 +24,8 @@ def main_page(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def user_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def user_profile(request, tar_user_pk):
+    user = get_object_or_404(User, id=tar_user_pk)
 
     # 팔로우 수
     followers_count = user.followers.count()
@@ -57,8 +57,8 @@ def user_profile(request, user_id):
     return Response(profile_data, status=status.HTTP_200_OK)
 # 특정 사용자를 팔로우하는 사용자 목록을 가져옮
 @api_view(['GET'])
-def get_followers_list(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def get_followers_list(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
     followers = user.followers.all()
     followers_list = []
     for follow in followers:
@@ -67,8 +67,8 @@ def get_followers_list(request, user_id):
 
 # 특정 사용자가 팔로우하는 사용자 목록을 가져옮
 @api_view(['GET'])
-def get_following_list(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def get_following_list(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
     following = user.following.all()
     following_list = []
     for follow in following:
