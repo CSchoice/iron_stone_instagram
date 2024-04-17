@@ -70,7 +70,7 @@
 | image     | Image   | 게시글 사진       |    |
 | created_at     | Date   | 게시글 작성 시간  |    |
 | updated_at  | Date  | 게시글 수정 시간           |    |
-| like_user     | int   | 게시글 좋아요  |유저:게시글=N:M|
+| like_user     | Foreign_key   | 게시글 좋아요  |유저:게시글=N:M|
 | author     | Foreign_key   | 게시글 작성자  |유저:게시글=1:N|
 
 
