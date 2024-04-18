@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import ArticleSerializer, CommentSerializer, ArticleSerializerlike
+from .serializers import ArticleSerializer, CommentSerializer, Article_like_comment_Serializer
 from .models import Comment, Article
 from accounts.models import User
 from rest_framework.authtoken.models import Token
@@ -19,7 +19,7 @@ def main_page(request):
     articles = (user_articles | following_articles).order_by('-created_at')[:20]
     
     # serializer 작업
-    serializer = ArticleSerializerlike(articles, many=True, context={'request': request})
+    serializer = Article_like_comment_Serializer(articles, many=True, context={'request': request})
     
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -38,7 +38,7 @@ def user_profile(request, tar_user_pk):
 
     # 사용자의 게시글들 조회
     articles = Article.objects.filter(author=user)
-    serializer = ArticleSerializerlike(articles, many=True, context={'request': request})
+    serializer = Article_like_comment_Serializer(articles, many=True, context={'request': request})
 
 
     profile_data = {
@@ -97,7 +97,7 @@ def create_article(request):
 @api_view(['GET'])
 def article_detail(request, article_pk):
     article = Article.objects.get(pk=article_pk)
-    serializer = ArticleSerializerlike(article, context={'request': request})
+    serializer = Article_like_comment_Serializer(article, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
