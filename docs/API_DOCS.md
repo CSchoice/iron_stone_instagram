@@ -15,6 +15,7 @@
 | /accounts/{user_pk}/control   |GET| 회원정보 수정 페이지  |
 | /accounts/{user_pk}/control   |POST| 회원정보 수정  |
 | /accounts/{tar_user_pk}/follow/   |POST| 유저 팔로우  |
+| /accounts/check_login/   |POST| 유저 로그인여부 확인  |
 
 
 
