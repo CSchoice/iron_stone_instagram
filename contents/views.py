@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import ArticleSerializer, CommentSerializer
+from .serializers import ArticleSerializer, CommentSerializer, ArticleSerializerlike
 from .models import Comment, Article
 from accounts.models import User
 from rest_framework.authtoken.models import Token
@@ -38,7 +38,8 @@ def user_profile(request, tar_user_pk):
 
     # 사용자의 게시글들 조회
     articles = Article.objects.filter(author=user)
-    serializer = ArticleSerializer(articles, many=True)
+    serializer = ArticleSerializerlike(articles, many=True, context={'request': request})
+
 
     profile_data = {
         'pk': user.pk,
@@ -80,8 +81,6 @@ def get_following_list(request, user_pk):
 def create_article(request):
     try:
         token_key = request.auth
-        print(request.auth)
-        print(request.user)
         token = Token.objects.get(key=token_key)
         user = token.user
     except Token.DoesNotExist:
@@ -149,11 +148,11 @@ def like_article(request, article_pk):
     
     article = get_object_or_404(Article, pk=article_pk)
     
-    if article.likes.filter(pk=request.user.pk).exists():
+    if article.like_user.filter(pk=request.user.pk).exists():
         # 이미 좋아요를 한 경우, 좋아요 취소
-        article.likes.remove(request.user)
+        article.like_user.remove(request.user)
         return Response({"message": "게시글 좋아요 취소"}, status=status.HTTP_200_OK)
     else:
         # 좋아요 추가
-        article.likes.add(request.user)
+        article.like_user.add(request.user)
         return Response({"message": "게시글 좋아요 성공"}, status=status.HTTP_200_OK)
