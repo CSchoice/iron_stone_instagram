@@ -19,7 +19,7 @@ def main_page(request):
     articles = (user_articles | following_articles).order_by('-created_at')[:20]
     
     # serializer 작업
-    serializer = ArticleSerializer(articles, many=True)
+    serializer = ArticleSerializerlike(articles, many=True, context={'request': request})
     
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -57,6 +57,7 @@ def user_profile(request, tar_user_pk):
 
     return Response(profile_data, status=status.HTTP_200_OK)
 # 특정 사용자를 팔로우하는 사용자 목록을 가져옮
+# 요청이 가능한 것들은 쪼개면 좋을 수 있음
 @api_view(['GET'])
 def get_followers_list(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
@@ -96,7 +97,7 @@ def create_article(request):
 @api_view(['GET'])
 def article_detail(request, article_pk):
     article = Article.objects.get(pk=article_pk)
-    serializer = ArticleSerializer(article)
+    serializer = ArticleSerializerlike(article, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -156,3 +157,4 @@ def like_article(request, article_pk):
         # 좋아요 추가
         article.like_user.add(request.user)
         return Response({"message": "게시글 좋아요 성공"}, status=status.HTTP_200_OK)
+    

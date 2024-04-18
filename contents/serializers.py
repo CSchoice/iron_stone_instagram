@@ -20,7 +20,7 @@ class ArticleSerializerlike(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['id', 'author', 'content', 'image', 'created_at', 'liked_by_user']
+        fields = ['id', 'author', 'content', 'image', 'created_at','updated_at', 'liked_by_user']
 
     def get_liked_by_user(self, obj):
         request = self.context.get('request')
