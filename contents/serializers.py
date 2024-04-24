@@ -28,7 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
 #             return obj.like_user.filter(pk=request.user.pk).exists()
 #         return False
     
-class Article_like_comment_Serializer(serializers.ModelSerializer):
+class ArticleLikeCommentSerializer(serializers.ModelSerializer):
     liked_by_user = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
