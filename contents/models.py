@@ -17,10 +17,11 @@ class Article(models.Model):
     )
     content = models.TextField()
     image = models.ImageField(upload_to=user_directory_path, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     like_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='like_articles'
     )
+    updated_at = models.DateTimeField(auto_now_add=True)
 
 class Comment(models.Model):
     author = models.ForeignKey(
@@ -28,4 +29,6 @@ class Comment(models.Model):
     )
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    

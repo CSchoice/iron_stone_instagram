@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import ArticleSerializer, CommentSerializer
+from .serializers import ArticleSerializer, CommentSerializer, Article_like_comment_Serializer
 from .models import Comment, Article
 from accounts.models import User
 from rest_framework.authtoken.models import Token
@@ -19,13 +19,13 @@ def main_page(request):
     articles = (user_articles | following_articles).order_by('-created_at')[:20]
     
     # serializer 작업
-    serializer = ArticleSerializer(articles, many=True)
+    serializer = Article_like_comment_Serializer(articles, many=True, context={'request': request})
     
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def user_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def user_profile(request, tar_user_pk):
+    user = get_object_or_404(User, id=tar_user_pk)
 
     # 팔로우 수
     followers_count = user.followers.count()
@@ -38,7 +38,8 @@ def user_profile(request, user_id):
 
     # 사용자의 게시글들 조회
     articles = Article.objects.filter(author=user)
-    serializer = ArticleSerializer(articles, many=True)
+    serializer = Article_like_comment_Serializer(articles, many=True, context={'request': request})
+
 
     profile_data = {
         'pk': user.pk,
@@ -56,9 +57,10 @@ def user_profile(request, user_id):
 
     return Response(profile_data, status=status.HTTP_200_OK)
 # 특정 사용자를 팔로우하는 사용자 목록을 가져옮
+# 요청이 가능한 것들은 쪼개면 좋을 수 있음
 @api_view(['GET'])
-def get_followers_list(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def get_followers_list(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
     followers = user.followers.all()
     followers_list = []
     for follow in followers:
@@ -67,8 +69,8 @@ def get_followers_list(request, user_id):
 
 # 특정 사용자가 팔로우하는 사용자 목록을 가져옮
 @api_view(['GET'])
-def get_following_list(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def get_following_list(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
     following = user.following.all()
     following_list = []
     for follow in following:
@@ -80,8 +82,6 @@ def get_following_list(request, user_id):
 def create_article(request):
     try:
         token_key = request.auth
-        print(request.auth)
-        print(request.user)
         token = Token.objects.get(key=token_key)
         user = token.user
     except Token.DoesNotExist:
@@ -97,7 +97,7 @@ def create_article(request):
 @api_view(['GET'])
 def article_detail(request, article_pk):
     article = Article.objects.get(pk=article_pk)
-    serializer = ArticleSerializer(article)
+    serializer = Article_like_comment_Serializer(article, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -149,11 +149,12 @@ def like_article(request, article_pk):
     
     article = get_object_or_404(Article, pk=article_pk)
     
-    if article.likes.filter(pk=request.user.pk).exists():
+    if article.like_user.filter(pk=request.user.pk).exists():
         # 이미 좋아요를 한 경우, 좋아요 취소
-        article.likes.remove(request.user)
+        article.like_user.remove(request.user)
         return Response({"message": "게시글 좋아요 취소"}, status=status.HTTP_200_OK)
     else:
         # 좋아요 추가
-        article.likes.add(request.user)
+        article.like_user.add(request.user)
         return Response({"message": "게시글 좋아요 성공"}, status=status.HTTP_200_OK)
+    
